@@ -19,6 +19,9 @@ import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import javax.naming.directory.SearchResult;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 public class es_query1 {
     public static void main(String[] args) //throws Exception
@@ -39,12 +42,20 @@ public class es_query1 {
         SearchRequest request = new SearchRequest("test");
         request.source(searchSourceBuilder);
         try {
-            SearchResponse response=client.search(request);
-            SearchHits hits=response.getHits();
-            SearchHit[] result=hits.getHits();
-            for(SearchHit searchHit:result){
-                String s=searchHit.getSourceAsString();
-                System.out.println(s);
+            SearchResponse response = client.search(request);
+            SearchHits hits = response.getHits();
+            SearchHit[] result = hits.getHits();
+            for (SearchHit searchHit : result) {
+                Map<String, Object> json = searchHit.getSourceAsMap();
+                //                String s=searchHit.getSourceAsString();
+                Set keyset=json.keySet();
+                Iterator<String> iterator=keyset.iterator();
+                while (iterator.hasNext()){
+                    String key=iterator.next();
+                    Object value=json.get(key);
+                    System.out.println(key+" "+value.toString());
+                }
+
             }
             client.close();
         } catch (Exception e) {
