@@ -7,18 +7,16 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
-import javax.naming.directory.SearchResult;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -39,7 +37,7 @@ public class es_query1 {
         RestHighLevelClient client = new RestHighLevelClient(builder);
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.query(QueryBuilders.matchAllQuery());
-        SearchRequest request = new SearchRequest("test");
+        SearchRequest request = new SearchRequest("antmq_broker_consumer-2018-09-05");
         request.source(searchSourceBuilder);
         try {
             SearchResponse response = client.search(request);
@@ -55,7 +53,6 @@ public class es_query1 {
                     Object value=json.get(key);
                     System.out.println(key+" "+value.toString());
                 }
-
             }
             client.close();
         } catch (Exception e) {
